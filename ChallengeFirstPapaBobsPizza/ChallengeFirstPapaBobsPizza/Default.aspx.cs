@@ -51,51 +51,31 @@ namespace ChallengeFirstPapaBobsPizza
             {
                 // no change to total
                 crust = " thin curst, ";
-                order  = order + crust;
+                order += crust;
             }
             else { totalLabel.Text = "Please select a crust type."; }
             // Get toppings
-            if (pepperoniCheckBox.Checked)
-            {
-                toppings +=  " pepperoni, ";
-                total += 1.50;
-                
-            }
-            else if (onionsCheckBox.Checked)
-            {
-                toppings +=  " onions, ";
-                total +=  0.75;
-          
-            }
-            else if(greenPeppersCheckBox.Checked)
-            {
-                toppings = toppings + " green peppers, ";
-                total +=  .50;
-       
-            }
-            else if(redPeppersCheckBox.Checked)
-            {
-                toppings = toppings + " red peppers, ";
-                total += 0.75;
-             
-            }
-            else if(anchoviesCheckBox.Checked)
-            {
-                toppings +=  " anchovies, ";
-                total += 2;
-             
-            }
-            //order = order + toppings;
+            total = (pepperoniCheckBox.Checked) ? total + 1.5 : total;
+            total = (onionsCheckBox.Checked) ? total + .75 : total;
+            total = (greenPeppersCheckBox.Checked) ? total + 0.5 : total;
+            total = (redPeppersCheckBox.Checked) ? total + .75 : total;
+            total = (anchoviesCheckBox.Checked) ? total + 2 : total;
 
-            else { totalLabel.Text = "Just to confirm, you want a plain cheese pizza?"; }
+            order = (pepperoniCheckBox.Checked) ? order + " pepperoni, " : order;
+            order = (onionsCheckBox.Checked) ? order + " onions, " : order;
+            order = (greenPeppersCheckBox.Checked) ? order + "green peppers, " : order;
+            order = (redPeppersCheckBox.Checked) ? order + " red peppers, " : order;
+            order = (anchoviesCheckBox.Checked) ? order + " anchovies, " : order;
+
+            // else { totalLabel.Text = "Just to confirm, you want a plain cheese pizza?"; }
             // Check if Special Deal applies:
             if ((pepperoniCheckBox.Checked && greenPeppersCheckBox.Checked && anchoviesCheckBox.Checked)
                 || (pepperoniCheckBox.Checked && redPeppersCheckBox.Checked && onionsCheckBox.Checked))
             {
-                total = total - 2;
+                total -= 2;
             }
-            totalLabel.Text = "Total: $" + total;
-            orderLabel.Text = order+toppings;
+            totalLabel.Text = "Total: $" + total.ToString();
+            orderLabel.Text = order;
         }
 
 

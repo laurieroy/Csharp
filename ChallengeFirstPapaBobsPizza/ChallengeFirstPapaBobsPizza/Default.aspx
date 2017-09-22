@@ -19,9 +19,11 @@
     <form id="form1" runat="server">
     <div>
     
-        <asp:Image ID="logoImage" runat="server" ImageAlign="Baseline" ImageUrl="~/PapaBob.png" Width="200px" />
 &nbsp;
-        <h1 class="auto-style1">Papa Bob&#39;s Pizza and Software</h1>
+        <h1 class="auto-style1">&nbsp;
+    
+        <asp:Image ID="logoImage" runat="server" ImageAlign="Baseline" ImageUrl="~/PapaBob.png" Width="200px" />
+&nbsp;Papa Bob&#39;s Pizza and Software</h1>
     
     </div>
         <asp:RadioButton ID="smallRadioButton" runat="server" GroupName="sizeGroup"  Text="Baby Bob Size (10&quot;)-$10" />
