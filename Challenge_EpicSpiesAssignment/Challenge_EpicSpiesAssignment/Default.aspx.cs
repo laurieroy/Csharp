@@ -20,6 +20,7 @@ namespace Challenge_EpicSpiesAssignment
                 endAssCalendar.SelectedDate = DateTime.Now.Date.AddDays(22);
                 endAssCalendar.VisibleDate = DateTime.Now.Date.AddDays(22);
             }
+            Page.MaintainScrollPositionOnPostBack = true;
         }
 
         protected void okButton_Click(object sender, EventArgs e)
