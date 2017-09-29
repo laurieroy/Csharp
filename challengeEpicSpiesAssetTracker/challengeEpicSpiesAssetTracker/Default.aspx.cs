@@ -9,8 +9,8 @@ namespace challengeEpicSpiesAssetTracker
 {
     public partial class Default : System.Web.UI.Page
     {
-        double [] acts;
-        double [] votes;
+        int [] acts;
+        int [] votes;
         string [] names;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -18,8 +18,8 @@ namespace challengeEpicSpiesAssetTracker
             if (!Page.IsPostBack)
             {
                 names = new string[0];
-                votes = new double[0];
-                acts = new double[0];
+                votes = new int[0];
+                acts = new int[0];
                 ViewState.Add("Names", names);
                 ViewState.Add("Votes", votes);
                 ViewState.Add("Acts", acts);
@@ -30,8 +30,8 @@ namespace challengeEpicSpiesAssetTracker
         protected void addButton_Click(object sender, EventArgs e)
         {
             string[] names = (string[])ViewState["Names"];
-            double[] votes = (double[])ViewState["Votes"];
-            double[] acts = (double[])ViewState["Acts"];
+            int[] votes = (int[])ViewState["Votes"];
+            int[] acts = (int[])ViewState["Acts"];
 
             Array.Resize(ref names, names.Length + 1);  // this seems horribly inefficient
             Array.Resize(ref acts, acts.Length + 1);
@@ -49,6 +49,10 @@ namespace challengeEpicSpiesAssetTracker
             resultLabel.Text = String.Format("Total elections rigged: {0}<br /> " +
                            "Average Acts of Subterfuge per Asset: {1:N2}<br />(Last Asset you Added:{2})", +
                            votes.Sum(), acts.Average(), names[newestItem]);
+
+            nameTextBox.Text = ""; // clear out for next entry
+            riggedTextBox.Text = "";
+            actsTextBox.Text = "";
                                 
         }
     }

@@ -10,6 +10,9 @@
             width: 242px;
             height: 300px;
         }
+        .auto-style2 {
+            font-family: Arial, Helvetica, sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -17,7 +20,7 @@
     <div>
     
         <img alt="epic spies logo" class="auto-style1" height="150" src="epic-spies-logo.jpg" /><br />
-        <h1>Asset Performance Tracker</h1>
+        <h1 class="auto-style2">Asset Performance Tracker</h1>
         <br />
         Asset Name:
         <asp:TextBox ID="nameTextBox" runat="server"></asp:TextBox>
