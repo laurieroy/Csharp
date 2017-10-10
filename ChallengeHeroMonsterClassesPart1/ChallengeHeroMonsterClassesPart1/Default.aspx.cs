@@ -9,90 +9,101 @@ namespace ChallengeHeroMonsterClassesPart1
 {
     public partial class Default : System.Web.UI.Page
     {
-        Random random = new Random();
+       
         protected void Page_Load(object sender, EventArgs e)
         {
             Character hero = new Character();
-            // create instance of each. set attr to whatever you want
             hero.Name = "Hero";
             hero.Health = 100;
             hero.DamageMaximum = 20;
-            hero.AttackBonus = 2; // he's doing bool so false
-            
-            //  Iinit stats currently don't show. Assuming will pull the following out of page load and into a loop.
-            heroLabel.Text = String.Format("Greetings, O Formidable {0}! Your starting " +
+            hero.AttackBonus = false; 
+
+            infoLabel.Text = String.Format("Greetings, O Formidable {0}! Your starting " +
             "health is {1}, your attack bonus is {2}, and the most damage you can " +
-            "inflict is {3}. Your people are counting on you! Good luck.",
+            "inflict is {3}. Your people are counting on you! Good luck. <br/>",
             hero.Name, hero.Health, hero.AttackBonus, hero.DamageMaximum);
 
             Character monster = new Character();
             monster.Name = "Monster";
             monster.Health = 100;
-            monster.DamageMaximum = 10;
-            monster.AttackBonus = 5; // again he has bool so set to true
-            
-            monsterLabel.Text = String.Format("Greetings, O despicable {0}! " +
+            monster.DamageMaximum = 17;
+            monster.AttackBonus = true; 
+
+            infoLabel.Text += String.Format("<br/>Greetings, O despicable {0}! " +
              "Your starting health is {1}, your attack bonus is {2}, and your defense " +
-             "bonus is {3}. ", monster.Name, monster.Health.ToString(), monster.AttackBonus.ToString(), monster.DamageMaximum.ToString());
+             "bonus is {3}. I'm sure you have a reason for fighting--Good luck.<br/><br/>  ", monster.Name, monster.Health.ToString(), monster.AttackBonus.ToString(), monster.DamageMaximum.ToString());
 
-            // displayBattleHeader();  // Separate out into rounds**
-            //    monster.Health = performAttack();
+            Dice dice = new Dice();
+            int round = 0;
 
-            // hero attacks first
-            int damage = hero.PerformAttack();
-            monster.Defend(damage);
+            // Give bonus attack if either is true.
+            int damage = (hero.AttackBonus == true) ? hero.PerformAttack(dice) : monster.PerformAttack(dice);
+            if (hero.AttackBonus == true) monster.Defend(damage);
+            else hero.Defend(damage);
 
-            // monster's turn to attack
-            damage = monster.PerformAttack();
-            hero.Defend(damage);
-            
-            DisplayStatsHero(hero);
-            DisplayStatsMonster(monster);
+            displayRoundHeader(round, hero, monster);
+
+            while (hero.Health > 0 && monster.Health > 0)
+            {
+                round++;
+                // monster attacks first
+                damage = monster.PerformAttack(dice);
+                hero.Defend(damage);
+
+                // hero attacks second
+                damage = hero.PerformAttack(dice);
+                monster.Defend(damage);
+               
+                displayRoundHeader(round, hero, monster);
+                
+            }
+            displayResult(monster, hero, round);
         }
-        
-        private void DisplayStatsHero(Character character)
+
+        private void displayResult(Character character1, Character character2, int round) 
         {
-            heroLabel.Text = CurrentStats(character);
+            int Round = round;
+            displayRoundHeader(round, character1, character2);
+            if (character1.Health <= 0 && character2.Health <= 0)
+                infoLabel.Text += "Both fighters have succumbed to their wounds. Neither is victorious. <br/>";
+
+            //huh! you can do a ternary inside a ternary! test for health < 0, return the other's name as winner
+            string winner = (character2.Health <= 0) ? character1.Name : (character1.Health <= 0) ? character2.Name:character1.Name;
+            string loser = (winner == character1.Name) ? character2.Name : character1.Name;
+
+            infoLabel.Text += String.Format("After {0} excruciating rounds, {1} has emerged victorious over {2}, " +
+                "who fought to the death. <br/>", Round, winner, loser);
         }
 
-        private void DisplayStatsMonster(Character character)
+        private void displayRoundHeader(int round, Character character1, Character character2) 
         {
-            monsterLabel.Text = CurrentStats(character);
+            resultLabel.Text += String.Format("Round {0}: ", round);
+            CurrentStats(character1);
+            CurrentStats(character2);
         }
 
-        private string CurrentStats(Character character)
+        private void CurrentStats(Character character)
         {
-            return String.Format("Name: {0} Health: {1} Attack bonus: {2}, Defense Bonus: {3}. ",
-                character.Name, character.Health, character.AttackBonus, character.DamageMaximum);
+            resultLabel.Text += String.Format("Name: {0} Health: {1}.<br/>", character.Name, character.Health);
         }
-
-
     }
-    /*
-            private void displayRoundHeader()
-            {
-                throw new NotImplementedException();
-            }
-
-            private void displayBattleHeader() // ********
-            {
-                throw new NotImplementedException();
-            }
-            */
 
     class Character
     {
         public string Name { get; set; }
         public int Health { get; set; }
         public int DamageMaximum { get; set; }
-        public int AttackBonus { get; set; } // he set his as a bool
-
-        public int PerformAttack() 
+        public bool AttackBonus { get; set; } 
+        
+        public int PerformAttack(Dice dice) // gets instance of Dice
         {
-            Random random = new Random();
+            dice.Sides = this.DamageMaximum;
+            dice.Roll(); // sets Sides prop
 
-            int attack_damage = random.Next(this.DamageMaximum);
-            return attack_damage;
+            // int attack_damage = random.Next(dice); // then call Roll method
+            // use return valueas ret val of attack method also
+
+            return dice.Roll();
         }
         
         public void Defend(int attack_damage)
@@ -101,4 +112,16 @@ namespace ChallengeHeroMonsterClassesPart1
             this.Health -= attack_damage;
         }
     }
+    
+    class Dice
+    {
+        public int Sides { get; set; } // the max is supposed to be the char DamageMaximum
+        Random random = new Random();
+
+        public int Roll(    )
+        {
+            return random.Next(this.Sides);
+        }
+    }
+    
 }

@@ -10,10 +10,10 @@
     <form id="form1" runat="server">
     <div>
     
-        <asp:Label ID="heroLabel" runat="server"></asp:Label>
+        <asp:Label ID="infoLabel" runat="server"></asp:Label>
         <br />
         <br />
-        <asp:Label ID="monsterLabel" runat="server"></asp:Label>
+        <asp:Label ID="resultLabel" runat="server"></asp:Label>
     
     </div>
     </form>
