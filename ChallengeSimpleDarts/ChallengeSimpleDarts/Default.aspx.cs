@@ -13,9 +13,6 @@ namespace ChallengeSimpleDarts
         {
 
         }
-        //Try to keep the classes as short as possible and cohesive.
-        //Try to keep the methods as short as possible...no more than 6 lines of code.
-
 
         protected void okButton_Click(object sender, EventArgs e)
         {
@@ -23,7 +20,7 @@ namespace ChallengeSimpleDarts
             int[] scores = new int[2];
             scores =game.Play();
             int Score1 = scores[0];
-            int Score2 = scores[1]; // GetScores needs to be written under Game
+            int Score2 = scores[1]; 
             string winner = (Score1 > Score2) ? "Player1" : "Player2";
             DisplayScore(Score1, Score2, winner);
 

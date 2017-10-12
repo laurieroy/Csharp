@@ -17,7 +17,7 @@ namespace ChallengeSimpleDarts
                     value = (dart.IsTriple) ? dart.Score * 3 : ((dart.IsDouble) ? dart.Score * 2 : dart.Score); // case double or triple
                 else
                     value = (dart.IsTriple && dart.Score == 0) ? 50 : 25; // case bullseye (also 5% of bull, else outer) 
-                // used Bob's logic here but I think in reality it should be a differnt 5% chunk
+                // used Bob's logic here but I think in reality it should be a different 5% chunk
                 return value; 
             }
 
